@@ -1,0 +1,13 @@
+# Build
+node_modules
+package-lock.json
+
+# Database
+prisma/migrations
+prisma/node_modules
+prisma/dev.db
+prisma/dev.db-journal
+
+# Environment
+.env
+
