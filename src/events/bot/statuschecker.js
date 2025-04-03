@@ -168,11 +168,14 @@ const checkBotStatus = async (client) => {
     }
   }
 
-  // Update the status message in the channel
   const embed = new EmbedBuilder()
     .setColor(0xff00ea)
     .setTitle("Pridebot System Status")
     .addFields(
+      {
+        name: "BOTS",
+        value: "_ _",
+      },
       {
         name: `${
           monitoredBot &&
@@ -237,6 +240,10 @@ const checkBotStatus = async (client) => {
             : `<@1109501423441432628> is currently offline. Last seen online <t:${lastOfflineTime}:R>.`,
       },
       {
+        name: "WEBSITES / APIS",
+        value: "_ _",
+      },
+      {
         name: `${
           pridebotWebStatus
             ? "<:_:1111490955518951465>"
@@ -259,13 +266,34 @@ const checkBotStatus = async (client) => {
           monitoredBot.presence.status !== "offline"
             ? "Online"
             : "Offline"
-        } **|** PFP Website`,
+        } **|** PFP Website / PFP API`,
         value:
           monitoredBot &&
           monitoredBot.presence &&
           monitoredBot.presence.status !== "offline"
             ? `https://pfp.pridebot.xyz has been online since <t:${pridebotUptime}:R>.`
             : `https://pfp.pridebot.xyz is currently offline. Last seen online <t:${lastOfflineTime}:R>.`,
+      },
+      {
+        name: `${
+          monitoredBot &&
+          monitoredBot.presence &&
+          monitoredBot.presence.status !== "offline"
+            ? "<:_:1111490955518951465>"
+            : "<:_:1111490661259165727>"
+        } ${
+          monitoredBot &&
+          monitoredBot.presence &&
+          monitoredBot.presence.status !== "offline"
+            ? "Online"
+            : "Offline"
+        } **|** Profile API`,
+        value:
+          monitoredBot &&
+          monitoredBot.presence &&
+          monitoredBot.presence.status !== "offline"
+            ? `https://profile.pridebot.xyz has been online since <t:${pridebotUptime}:R>.`
+            : `https://profile.pridebot.xyz is currently offline. Last seen online <t:${lastOfflineTime}:R>.`,
       },
       {
         name: "Last Checked",
