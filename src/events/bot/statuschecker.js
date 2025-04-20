@@ -71,6 +71,22 @@ async function checkWebsiteStatus(url) {
   }
 }
 
+async function getWebsitePing(url) {
+  const { default: fetch } = await import("node-fetch");
+  const start = Date.now();
+  try {
+    const response = await fetch(url);
+    const end = Date.now();
+    if (response.ok) {
+      return end - start;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return null;
+  }
+}
+
 const checkBotStatus = async (client) => {
   if (!client) {
     console.error("Client is undefined! Check the caller.");
@@ -98,8 +114,10 @@ const checkBotStatus = async (client) => {
   const timestamp = `<t:${Math.floor(Date.now() / 1000)}:R>`;
   const { data: botStats } = await fetchPrideBotStats();
   const pridebotUptime = botStats ? botStats.botuptime : "Unknown";
+  const pridebotPing = botStats?.ping ?? "Unknown";
   const { data: botStatsTest } = await fetchPrideBotTestStats();
   const pridebottestUptime = botStatsTest ? botStatsTest.botuptime : "Unknown";
+  const pridebotTestPing = botStatsTest?.ping ?? "Unknown";
   const { data: webStats } = await fetchPrideBotWebStats();
   const webUptime = webStats ? webStats.formatedStartTime : "Unknown";
 
@@ -194,7 +212,9 @@ const checkBotStatus = async (client) => {
           monitoredBot &&
           monitoredBot.presence &&
           monitoredBot.presence.status !== "offline"
-            ? `<@1101256478632972369> has been online since <t:${pridebotUptime}:R>.`
+            ? `<@1101256478632972369> has been online since <t:${pridebotUptime}:R>.\nPing: ${Math.round(
+                pridebotPing
+              )}ms`
             : `<@1101256478632972369> is currently offline. Last seen online <t:${lastOfflineTime}:R>.`,
       },
       {
@@ -215,7 +235,9 @@ const checkBotStatus = async (client) => {
           monitoredBot1 &&
           monitoredBot1.presence &&
           monitoredBot1.presence.status !== "offline"
-            ? `<@1193779874935099472> has been online since <t:${botStartTime}:R>.`
+            ? `<@1193779874935099472> has been online since <t:${botStartTime}:R>. \nPing: ${Math.round(
+                client.ws.ping
+              )}ms`
             : `<@1193779874935099472> is currently offline. Last seen online <t:${lastOfflineTime}:R>.`,
       },
       {
@@ -236,7 +258,9 @@ const checkBotStatus = async (client) => {
           monitoredBot2 &&
           monitoredBot2.presence &&
           monitoredBot2.presence.status !== "offline"
-            ? `<@1109501423441432628> has been online since <t:${pridebottestUptime}:R>.`
+            ? `<@1109501423441432628> has been online since <t:${pridebottestUptime}:R>. \nPing: ${Math.round(
+                pridebotTestPing
+              )}ms`
             : `<@1109501423441432628> is currently offline. Last seen online <t:${lastOfflineTime}:R>.`,
       },
       {
@@ -250,7 +274,9 @@ const checkBotStatus = async (client) => {
             : "<:_:1111490661259165727>"
         } ${pridebotWebStatus ? "Online" : "Offline"} **|** Pridebot Website`,
         value: pridebotWebStatus
-          ? `https://pridebot.xyz has been online since <t:${webUptime}:R>.`
+          ? `https://pridebot.xyz has been online since <t:${webUptime}:R>. \nPing: ${await getWebsitePing(
+              "https://pridebot.xyz"
+            )}ms`
           : `https://pridebot.xyz is currently offline. Last seen online <t:${lastOfflineTime}:R>.`,
       },
       {
@@ -271,7 +297,9 @@ const checkBotStatus = async (client) => {
           monitoredBot &&
           monitoredBot.presence &&
           monitoredBot.presence.status !== "offline"
-            ? `https://pfp.pridebot.xyz has been online since <t:${pridebotUptime}:R>.`
+            ? `https://pfp.pridebot.xyz has been online since <t:${pridebotUptime}:R>. \nPing: ${await getWebsitePing(
+                "https://pfp.pridebot.xyz"
+              )}ms`
             : `https://pfp.pridebot.xyz is currently offline. Last seen online <t:${lastOfflineTime}:R>.`,
       },
       {
@@ -292,7 +320,9 @@ const checkBotStatus = async (client) => {
           monitoredBot &&
           monitoredBot.presence &&
           monitoredBot.presence.status !== "offline"
-            ? `https://profile.pridebot.xyz has been online since <t:${pridebotUptime}:R>.`
+            ? `https://profile.pridebot.xyz has been online since <t:${pridebotUptime}:R>. \nPing: ${await getWebsitePing(
+                "https://profile.pridebot.xyz"
+              )}ms`
             : `https://profile.pridebot.xyz is currently offline. Last seen online <t:${lastOfflineTime}:R>.`,
       },
       {
