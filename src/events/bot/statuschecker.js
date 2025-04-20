@@ -164,7 +164,7 @@ const checkBotStatus = async (client) => {
     pridebotTestOfflineAlertSent = false;
   } else if (!pridebotTestOfflineAlertSent) {
     pridebotTestOfflineAlertSent = true;
-    lastOfflineTime = Math.floor(Date.now() / 1000);
+    lastOfflineTime = 1729311300;
     if (devChannel) {
       await devChannel.send(
         `<@691506668781174824> Pridebot Test is offline. Been offline since <t:${lastOfflineTime}:T> (<t:${lastOfflineTime}:R>).`
