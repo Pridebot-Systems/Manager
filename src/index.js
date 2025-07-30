@@ -8,6 +8,7 @@ const { botcommands } = require("./commands/messages/botcommands.js");
 const { managePM2 } = require("./commands/process/terminal.js");
 
 const { checkBotStatus } = require("./events/bot/statuschecker.js");
+const { updateChannelName } = require("./events/server/statTracker.js");
 
 const botStartTime = Math.floor(Date.now() / 1000);
 
@@ -75,9 +76,10 @@ connect(process.env.databaseToken)
   .then(() => console.log("Connected to MongoDB"))
   .catch(console.error);
 
-
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
   checkBotStatus(client);
+  updateChannelName(client);
   setInterval(() => checkBotStatus(client), 60000);
-});;
+  setInterval(() => updateChannelName(client), 900000);
+});
